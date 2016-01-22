@@ -40,6 +40,16 @@ else()
     message(ERROR " GLUT not found!")
 endif()
 
+include(FindPkgConfig)
+pkg_search_module(freeglut REQUIRED freeglut)
+if(freeglut_FOUND)
+    include_directories(${freeglut_STATIC_INCLUDE_DIRS})
+    link_directories(${freeglut_STATIC_LIBRARY_DIRS})
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${freeglut_STATIC_CFLAGS_OTHER}")
+    add_definitions(${freeglut_STATIC_CFLAGS_OTHER})
+endif()
+
+
 find_package(DevIL REQUIRED)
 if(IL_FOUND)
     include_directories(${IL_INCLUDE_DIRS})
